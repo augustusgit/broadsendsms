@@ -1,3 +1,19 @@
 ## API Project for broadshift
 
-Broadshift is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects.
+This is a bulksms test feature for broadshit test. Took some time to come up with but am sure the codebase have some function that can help even other elite developers.
+
+- In other to test this code, clone or download from git and the run
+``` 
+ composer install
+```
+then
+
+change .env.example to .env
+
+then run,
+
+```cronexp
+php artisan serve
+```
+
+

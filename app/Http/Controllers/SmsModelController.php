@@ -100,7 +100,6 @@ class SmsModelController extends Controller
         $phonelist = $reqData["phone"];
         $phoneArray = explode(",", trim($phonelist));
         $totalAmout =0.0;
-        $loopCount = 0;
         $noOfRecipient= count($phoneArray);
         $priceListUrl = "https://drive.google.com/uc?export=download&id=1Kj4wzI9rIUXs9ugtOH_PxOC0PktnwnOj";//asset('txt/pricelist.txt');
         $data = array();
@@ -113,40 +112,17 @@ class SmsModelController extends Controller
             die("Cannot load file");
         }
         $pricetxts = explode("\n",$fp);
-        $noOfPriceTemp= count($pricetxts);
-        $lex_dict = array();
         foreach ($phoneArray as $str) {
-            $totalAmout += $this->geteachPrice($pricetxts, $str);
-//            foreach ($pricetxts as $pricetxt) {
-//                $item = explode("=", $pricetxt);
-//                if (str_starts_with($str, $item[0])) {
-//                    $totalAmout += floatval($item[1]);
-//                }
-//
-////            $position = array_push($lex_dict, $item);
-//            }
+            $totalAmout += $this->getEachPrice($pricetxts, $str);
         }
-//        foreach ($pricetxts as $pricetxt) {
-//            $item = explode("=", $pricetxt);
-////            if (str_starts_with($str, $item[0])) {
-//                $totalAmout += floatval($item[1]);
-////            }
-//
-////            $position = array_push($lex_dict, $item[1]);
-//        }
         $data['total-amount'] = $totalAmout;
         $data['no-of-recipient'] = $noOfRecipient;
         $data['phones'] = $phoneArray;
-        $data['loopcount'] = $loopCount;
-        $data['noOfPriceTemp'] = $noOfPriceTemp;
-        $data['priceItem'] = $lex_dict;
-//
-//        return response()->json(['msg' => null, 'data' => $data, 'success' => true], 200);
-//        return Response::json(array('status' => 1, 'message' => "Request Successful", 'data' => $data));
-        return Response::json(array('status' => 1, 'message' => "Request Successful", 'data' => $data));
-    }
 
-    public  function geteachPrice($pricetxts, $phone)
+        return response()->json(['msg' => null, 'data' => $data, 'success' => true], 200);
+  }
+
+    public  function getEachPrice($pricetxts, $phone)
     {
         foreach ($pricetxts as $pricetxt) {
             $item = explode("=", $pricetxt);

@@ -68,6 +68,7 @@ function validateForm() {
 
     const url = 'http://127.0.0.1:8000/api/postsms';
     const data = {senderId:senderIdValue,phone:phoneValue,message:messageValue};
+    let responseResult = {};
     // console.log(data);
     $.ajax({
         url: url,
@@ -75,49 +76,22 @@ function validateForm() {
         data: data,
         // dataType: JSON,
         success: function (response) {
+            responseResult = response;
             console.log(response);
+            var result = confirm(`You are attempting to message to ${responseResult['data']['no-of-recipient']} phone numbers and total cost of this sms is ${Math.floor(responseResult['data']['total-amount'] * responseResult['data']['no-of-recipient']) }. If you want to send, click OK. If not, click Cancel.`);
+            if (result) {
+                return true;
+            }
+            else {
+                return false;
+            }
         },
         error: function (error) {
             console.log(`Error ${error}`);
         }
     });
 
-    // const otherParam={
-    //     headers:{
-    //         'content-type':'application/json; charset=UTF-8',
-    //         'Accept': 'application/json'
-    //     },
-    //     body: data,
-    //     method:"post"
-    // }
-    //
-    // fetch(url,otherParam).then(data=>{return data.json()})
-    //     .then(res=>{console.log(res)})
-    //     .catch(error=>console.log(error));
-    // var result = confirm("You are attempting to message to 56 phone numbers and total cost of this sms is 793. If you want to send, click OK. If not, click Cancel.");
-    // if (result) {
-    //     return true;
-    // }
-    // else {
-    //     return false;
-    // }
-    // var status = document.getElementById('status').value;
-    // var awayScore = document.getElementById('awayScore').value;
-    // var homeScore = document.getElementById('homeScore').value;
-    //
-    // if(awayScore == 0 && homeScore == 0 && status == 'FINAL') {
-    //     var result = confirm("You have entered a FINAL SCORE of 0-0. If this is correct, click OK. If not, click Cancel and update the Status / Score.");
-    //     if (result) {
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
-    // else
-    // {
-    //     return true;
-    // }
+
 }
 
 // var str = "Hello, world 123!";
